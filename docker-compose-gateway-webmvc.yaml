@@ -1,0 +1,47 @@
+services:
+  gateway-config:
+    image: gateway-config
+    container_name: gateway-config
+    ports:
+      - 8081:8081
+    networks:
+      - gateway-network
+  gateway-webmvc:
+    image: gateway-webmvc
+    container_name: gateway-webmvc
+    ports:
+      - 8080:8080
+    depends_on:
+      - gateway-config
+    networks:
+      - gateway-network
+  a-service:
+    image: a-service
+    container_name: a-service
+    ports:
+      - 8082:8082
+    depends_on:
+      - gateway-webmvc
+    networks:
+      - gateway-network
+  b-service:
+    image: b-service
+    container_name: b-service
+    ports:
+      - 8083:8083
+    depends_on:
+      - gateway-webmvc
+    networks:
+      - gateway-network
+  c-service:
+    image: c-service
+    container_name: c-service
+    ports:
+      - 8084:8084
+    depends_on:
+      - gateway-webmvc
+    networks:
+      - gateway-network
+networks:
+  gateway-network:
+    driver: bridge
